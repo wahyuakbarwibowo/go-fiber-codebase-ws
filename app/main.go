@@ -3,6 +3,7 @@ package main
 import (
 	"api-golang-codebase/config"
 	"api-golang-codebase/internal/app"
+	"api-golang-codebase/internal/domain/event"
 	"log"
 )
 
@@ -18,6 +19,7 @@ func main() {
 		log.Fatal(err)
 	}
 	// defer db.Close
+	db.AutoMigrate(&event.Event{}, &event.Booking{})
 
 	server := app.NewServer(cfg, db)
 	if err := server.Run(); err != nil {

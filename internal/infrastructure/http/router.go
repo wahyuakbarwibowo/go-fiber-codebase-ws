@@ -10,6 +10,14 @@ import (
 
 func RegisterRoutes(app *fiber.App, db *gorm.DB) {
 	userRepo := postgres.NewUserRepository(db)
+	eventRepo := postgres.NewEventRepository(db)
+
 	userHandler := handler.NewUserHandler(userRepo)
-	app.Get("/users/:id", userHandler.GetUser)
+	eventHandler := handler.NewEventHandler(eventRepo)
+
+	app.Get("/user/:id", userHandler.GetUser)
+
+	app.Post("/event", eventHandler.CreateEvent)
+
+	app.Post("/booking", eventHandler.CreateBooking)
 }
